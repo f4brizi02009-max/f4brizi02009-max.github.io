@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Encuesta del proyecto SAPI: sistema inteligente para la prevención y alerta de inundaciones." />
+  <title>SAPI | Encuesta sobre inundaciones</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="background-shape shape-one"></div>
+  <div class="background-shape shape-two"></div>
+
+  <header class="site-header">
+    <a class="brand" href="#inicio" aria-label="Ir al inicio">
+      <span class="brand-icon" aria-hidden="true">
+        <svg viewBox="0 0 64 64" role="img">
+          <path d="M17 31a15 15 0 0 1 28-8 11 11 0 0 1 2 22H18a10 10 0 0 1-1-20Z"/>
+          <path d="M20 49l-4 7M31 49l-4 7M42 49l-4 7"/>
+          <path d="M12 58c6-4 11 4 17 0s11 4 17 0 10 2 12 1"/>
+        </svg>
+      </span>
+      <span>
+        <strong>SAPI</strong>
+        <small>Sistema de Alerta y Prevención de Inundaciones</small>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Navegación principal">
+      <a href="#proyecto">Proyecto</a>
+      <a href="#encuesta">Encuesta</a>
+      <a href="#resultados">Resultados</a>
+    </nav>
+
+    <button class="menu-button" id="menuButton" type="button" aria-label="Abrir menú" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <main id="inicio">
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">Proyecto de Tercero A BATIN</span>
+        <h1>Prevenir hoy puede proteger el mañana.</h1>
+        <p>
+          Ayudanos a conocer la opinión de la comunidad sobre las inundaciones,
+          la tecnología de prevención y la reutilización del agua de lluvia.
+        </p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#encuesta">Responder encuesta</a>
+          <a class="button button-secondary" href="#proyecto">Conocer el proyecto</a>
+        </div>
+
+        <div class="hero-stats" aria-label="Datos de la encuesta">
+          <article>
+            <strong>7</strong>
+            <span>preguntas</span>
+          </article>
+          <article>
+            <strong>2 min</strong>
+            <span>para completar</span>
+          </article>
+          <article>
+            <strong>100%</strong>
+            <span>anónima</span>
+          </article>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-label="Ilustración del sistema SAPI">
+        <div class="phone">
+          <div class="phone-top">
+            <span>9:41</span>
+            <span>● ● ●</span>
+          </div>
+          <div class="phone-content">
+            <div class="mini-logo">
+              <span class="alert-dot"></span>
+              SAPI EN LÍNEA
+            </div>
+
+            <div class="weather-card">
+              <div>
+                <span>Clima actual</span>
+                <strong>24°</strong>
+                <small>Lluvia moderada</small>
+              </div>
+              <div class="rain-cloud" aria-hidden="true">☁︎</div>
+            </div>
+
+            <div class="risk-card">
+              <div class="risk-header">
+                <span>Nivel de riesgo</span>
+                <strong>Moderado</strong>
+              </div>
+              <div class="risk-bar"><span></span></div>
+            </div>
+
+            <div class="map-card">
+              <div class="map-road road-one"></div>
+              <div class="map-road road-two"></div>
+              <div class="map-road road-three"></div>
+              <span class="map-safe">Zona segura</span>
+              <span class="map-alert">Posible inundación</span>
+              <span class="map-pin"></span>
+            </div>
+
+            <button type="button" class="phone-alert">Ver alerta activa</button>
+          </div>
+          <div class="phone-nav">
+            <span>⌂</span><span>⌖</span><span>△</span><span>☁</span>
+          </div>
+        </div>
+
+        <div class="floating-card floating-card-one">
+          <span class="floating-icon">✓</span>
+          <div><strong>Alerta temprana</strong><small>Información en tiempo real</small></div>
+        </div>
+
+        <div class="floating-card floating-card-two">
+          <span class="floating-icon">♻</span>
+          <div><strong>Agua de lluvia</strong><small>Uso responsable</small></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="project-section" id="proyecto">
+      <div class="section-heading">
+        <span class="eyebrow">Sobre SAPI</span>
+        <h2>Tecnología que ayuda a cuidar a la comunidad</h2>
+        <p>
+          Somos estudiantes de <strong>Tercero A BATIN</strong> y desarrollamos SAPI,
+          un proyecto orientado a detectar posibles inundaciones, enviar alertas
+          y promover el aprovechamiento responsable del agua de lluvia.
+        </p>
+      </div>
+
+      <div class="feature-grid">
+        <article class="feature-card">
+          <span class="feature-number">01</span>
+          <div class="feature-icon">⌁</div>
+          <h3>Detección temprana</h3>
+          <p>Sensores que controlan el nivel del agua para identificar situaciones de riesgo.</p>
+        </article>
+        <article class="feature-card">
+          <span class="feature-number">02</span>
+          <div class="feature-icon">!</div>
+          <h3>Alertas rápidas</h3>
+          <p>Notificaciones claras para que las personas puedan actuar antes de que aumenten los daños.</p>
+        </article>
+        <article class="feature-card">
+          <span class="feature-number">03</span>
+          <div class="feature-icon">♧</div>
+          <h3>Uso sostenible</h3>
+          <p>Reutilización del agua de lluvia para reducir el desperdicio y cuidar los recursos naturales.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="survey-section" id="encuesta">
+      <div class="survey-shell">
+        <aside class="survey-info">
+          <span class="eyebrow light">Tu opinión importa</span>
+          <h2>Encuesta sobre prevención de inundaciones</h2>
+          <p>
+            Tus respuestas nos ayudarán a evaluar la utilidad de SAPI y a mejorar
+            la propuesta. No solicitamos información personal.
+          </p>
+
+          <div class="progress-block">
+            <div class="progress-copy">
+              <span>Progreso</span>
+              <strong id="progressText">0 de 7</strong>
+            </div>
+            <div class="progress-track" aria-hidden="true">
+              <span id="progressBar"></span>
+            </div>
+          </div>
+
+          <div class="privacy-note">
+            <span>▣</span>
+            <p><strong>Encuesta anónima.</strong><br>Las respuestas se guardan solo en este dispositivo.</p>
+          </div>
+        </aside>
+
+        <div class="survey-card">
+          <form id="surveyForm" novalidate>
+            <div class="question" data-question="q1">
+              <div class="question-title">
+                <span>01</span>
+                <h3>¿Consideras que las inundaciones son un problema importante en tu comunidad?</h3>
+              </div>
+              <div class="options">
+                <label><input type="radio" name="q1" value="Sí"><span>Sí</span></label>
+                <label><input type="radio" name="q1" value="No"><span>No</span></label>
+              </div>
+              <p class="error-message">Seleccioná una opción.</p>
+            </div>
+
+            <div class="question" data-question="q2">
+              <div class="question-title">
+                <span>02</span>
+                <h3>¿Crees que un sistema de detección de inundaciones sería útil para prevenir daños?</h3>
+              </div>
+              <div class="options">
+                <label><input type="radio" name="q2" value="Sí"><span>Sí</span></label>
+                <label><input type="radio" name="q2" value="No"><span>No</span></label>
+                <label><input type="radio" name="q2" value="Tal vez"><span>Tal vez</span></label>
+              </div>
+              <p class="error-message">Seleccioná una opción.</p>
+            </div>
+
+            <div class="question" data-question="q3">
+              <div class="question-title">
+                <span>03</span>
+                <h3>¿Utilizarías una aplicación móvil para recibir alertas de inundación?</h3>
+              </div>
+              <div class="options">
+                <label><input type="radio" name="q3" value="Sí"><span>Sí</span></label>
+                <label><input type="radio" name="q3" value="No"><span>No</span></label>
+              </div>
+              <p class="error-message">Seleccioná una opción.</p>
+            </div>
+
+            <div class="question" data-question="q4">
+              <div class="question-title">
+                <span>04</span>
+                <h3>¿Piensas que reutilizar el agua de lluvia es una buena idea?</h3>
+              </div>
+              <div class="options">
+                <label><input type="radio" name="q4" value="Sí"><span>Sí</span></label>
+                <label><input type="radio" name="q4" value="No"><span>No</span></label>
+              </div>
+              <p class="error-message">Seleccioná una opción.</p>
+            </div>
+
+            <div class="question" data-question="q5">
+              <div class="question-title">
+                <span>05</span>
+                <h3>¿Crees que la tecnología puede ayudar a reducir los efectos de las inundaciones?</h3>
+              </div>
+              <div class="options">
+                <label><input type="radio" name="q5" value="Sí"><span>Sí</span></label>
+                <label><input type="radio" name="q5" value="No"><span>No</span></label>
+              </div>
+              <p class="error-message">Seleccioná una opción.</p>
+            </div>
+
+            <div class="question" data-question="q6">
+              <div class="question-title">
+                <span>06</span>
+                <h3>¿Consideras necesario invertir en sistemas de prevención de inundaciones?</h3>
+              </div>
+              <div class="options">
+                <label><input type="radio" name="q6" value="Sí"><span>Sí</span></label>
+                <label><input type="radio" name="q6" value="No"><span>No</span></label>
+              </div>
+              <p class="error-message">Seleccioná una opción.</p>
+            </div>
+
+            <div class="question" data-question="q7">
+              <div class="question-title">
+                <span>07</span>
+                <h3>¿Crees que detectar una inundación a tiempo puede reducir los daños?</h3>
+              </div>
+              <div class="options">
+                <label><input type="radio" name="q7" value="Sí"><span>Sí</span></label>
+                <label><input type="radio" name="q7" value="No"><span>No</span></label>
+              </div>
+              <p class="error-message">Seleccioná una opción.</p>
+            </div>
+
+            <button class="submit-button" type="submit">
+              Enviar respuestas
+              <span>→</span>
+            </button>
+          </form>
+
+          <section class="success-message" id="successMessage" aria-live="polite">
+            <div class="success-icon">✓</div>
+            <span class="eyebrow">Respuesta registrada</span>
+            <h2>¡Gracias por participar!</h2>
+            <p>Tu opinión nos ayuda a mejorar SAPI y a desarrollar una solución más útil para la comunidad.</p>
+            <button type="button" class="button button-primary" id="newResponseButton">Enviar otra respuesta</button>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section class="results-section" id="resultados">
+      <div class="section-heading">
+        <span class="eyebrow">Vista local</span>
+        <h2>Resumen de respuestas</h2>
+        <p>Estos datos corresponden únicamente a las respuestas guardadas en este navegador.</p>
+      </div>
+
+      <div class="results-toolbar">
+        <p><strong id="responseCount">0</strong> respuestas registradas</p>
+        <div>
+          <button type="button" class="small-button" id="downloadButton">Descargar CSV</button>
+          <button type="button" class="small-button danger" id="clearButton">Borrar datos</button>
+        </div>
+      </div>
+
+      <div class="results-grid" id="resultsGrid"></div>
+    </section>
+  </main>
+
+  <footer>
+    <div>
+      <strong>SAPI</strong>
+      <p>Proyecto académico de Tercero A BATIN.</p>
+    </div>
+    <p>Prevención · Tecnología · Sostenibilidad</p>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
