@@ -1,2 +1,2 @@
 # LolmaniousInfamous.github.io
-encuesta para sapi pagina
+Encuesta para sapi pagina
