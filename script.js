@@ -104,6 +104,7 @@ function validateForm() {
 }
 
 function renderResults() {
+  if (!resultsGrid || !responseCount) return;
   const responses = getResponses();
   responseCount.textContent = responses.length;
 
@@ -193,7 +194,7 @@ newResponseButton.addEventListener("click", () => {
   document.getElementById("encuesta").scrollIntoView({ behavior: "smooth" });
 });
 
-downloadButton.addEventListener("click", () => {
+downloadButton?.addEventListener("click", () => {
   const responses = getResponses();
 
   if (responses.length === 0) {
@@ -223,7 +224,7 @@ downloadButton.addEventListener("click", () => {
   showToast("Archivo CSV descargado.");
 });
 
-clearButton.addEventListener("click", () => {
+clearButton?.addEventListener("click", () => {
   const responses = getResponses();
 
   if (responses.length === 0) {
