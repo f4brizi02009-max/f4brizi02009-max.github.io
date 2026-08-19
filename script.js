@@ -36,221 +36,269 @@ const questions = [
   }
 ];
 
-const STORAGE_KEY = "sapi_respuestas_v1";
-
 const form = document.getElementById("surveyForm");
 const progressBar = document.getElementById("progressBar");
 const progressText = document.getElementById("progressText");
 const successMessage = document.getElementById("successMessage");
 const newResponseButton = document.getElementById("newResponseButton");
-const resultsGrid = document.getElementById("resultsGrid");
-const responseCount = document.getElementById("responseCount");
-const downloadButton = document.getElementById("downloadButton");
-const clearButton = document.getElementById("clearButton");
+
 const menuButton = document.getElementById("menuButton");
 const nav = document.querySelector(".nav");
 const toast = document.getElementById("toast");
 
-function getResponses() {
-  try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-  } catch {
-    return [];
-  }
-}
 
-function saveResponses(responses) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(responses));
-}
+// ================================
+// ACTUALIZAR PROGRESO
+// ================================
 
 function updateProgress() {
+
   const answered = questions.filter(({ key }) =>
     form.querySelector(`input[name="${key}"]:checked`)
   ).length;
 
   const percentage = (answered / questions.length) * 100;
+
   progressBar.style.width = `${percentage}%`;
-  progressText.textContent = `${answered} de ${questions.length}`;
+
+  progressText.textContent =
+    `${answered} de ${questions.length}`;
 }
+
+
+// ================================
+// MOSTRAR MENSAJE
+// ================================
 
 function showToast(message) {
+
   toast.textContent = message;
+
   toast.classList.add("show");
+
   window.clearTimeout(showToast.timer);
-  showToast.timer = window.setTimeout(() => toast.classList.remove("show"), 2600);
+
+  showToast.timer = window.setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2600);
 }
 
+
+// ================================
+// VALIDAR ENCUESTA
+// ================================
+
 function validateForm() {
+
   let isValid = true;
+
   let firstInvalid = null;
 
   questions.forEach(({ key }) => {
-    const questionElement = document.querySelector(`[data-question="${key}"]`);
-    const checked = form.querySelector(`input[name="${key}"]:checked`);
 
-    questionElement.classList.toggle("invalid", !checked);
+    const questionElement =
+      document.querySelector(
+        `[data-question="${key}"]`
+      );
+
+    const checked =
+      form.querySelector(
+        `input[name="${key}"]:checked`
+      );
+
+    questionElement.classList.toggle(
+      "invalid",
+      !checked
+    );
 
     if (!checked) {
+
       isValid = false;
-      firstInvalid ??= questionElement;
+
+      if (!firstInvalid) {
+        firstInvalid = questionElement;
+      }
     }
   });
 
+
   if (firstInvalid) {
-    firstInvalid.scrollIntoView({ behavior: "smooth", block: "center" });
+
+    firstInvalid.scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
+
   }
 
   return isValid;
 }
 
-function renderResults() {
-  if (!resultsGrid || !responseCount) return;
-  const responses = getResponses();
-  responseCount.textContent = responses.length;
 
-  if (responses.length === 0) {
-    resultsGrid.innerHTML = `
-      <div class="empty-state">
-        <strong>Todavía no hay respuestas.</strong>
-        <p>Completá la encuesta para ver el resumen de resultados.</p>
-      </div>
-    `;
-    return;
-  }
+// ================================
+// ENVIAR RESPUESTAS A PHP
+// ================================
 
-  resultsGrid.innerHTML = questions.map((question, index) => {
-    const counts = Object.fromEntries(question.options.map(option => [option, 0]));
+form.addEventListener("submit", async event => {
 
-    responses.forEach(response => {
-      const value = response.answers[question.key];
-      if (value in counts) counts[value] += 1;
-    });
-
-    const rows = question.options.map(option => {
-      const count = counts[option];
-      const percentage = Math.round((count / responses.length) * 100);
-
-      return `
-        <div class="result-row">
-          <div class="result-label">
-            <span>${option}</span>
-            <strong>${count} · ${percentage}%</strong>
-          </div>
-          <div class="result-track">
-            <span style="width:${percentage}%"></span>
-          </div>
-        </div>
-      `;
-    }).join("");
-
-    return `
-      <article class="result-card">
-        <h3>${String(index + 1).padStart(2, "0")}. ${question.text}</h3>
-        ${rows}
-      </article>
-    `;
-  }).join("");
-}
-
-form.addEventListener("change", event => {
-  if (event.target.matches('input[type="radio"]')) {
-    const parentQuestion = event.target.closest(".question");
-    parentQuestion.classList.remove("invalid");
-    updateProgress();
-  }
-});
-
-form.addEventListener("submit", event => {
   event.preventDefault();
 
+
+  // Primero verificamos que todas
+  // las preguntas estén respondidas
+
   if (!validateForm()) {
-    showToast("Completá todas las preguntas antes de enviar.");
+
+    showToast(
+      "Completá todas las preguntas antes de enviar."
+    );
+
     return;
   }
+
+
+  // Obtenemos las respuestas del formulario
 
   const formData = new FormData(form);
-  const answers = Object.fromEntries(questions.map(({ key }) => [key, formData.get(key)]));
 
-  const responses = getResponses();
-  responses.push({
-    id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
-    createdAt: new Date().toISOString(),
-    answers
-  });
 
-  saveResponses(responses);
-  form.style.display = "none";
-  successMessage.classList.add("show");
-  renderResults();
-  showToast("Tu respuesta fue guardada correctamente.");
-});
+  try {
 
-newResponseButton.addEventListener("click", () => {
-  form.reset();
-  document.querySelectorAll(".question").forEach(question => question.classList.remove("invalid"));
-  updateProgress();
-  successMessage.classList.remove("show");
-  form.style.display = "block";
-  document.getElementById("encuesta").scrollIntoView({ behavior: "smooth" });
-});
+    // Enviamos los datos a guardar.php
 
-downloadButton?.addEventListener("click", () => {
-  const responses = getResponses();
+    const response = await fetch(
+      "guardar.php",
+      {
+        method: "POST",
+        body: formData
+      }
+    );
 
-  if (responses.length === 0) {
-    showToast("No hay respuestas para descargar.");
-    return;
+
+    // PHP devuelve un texto
+
+    const resultado = await response.text();
+
+
+    // Si PHP respondió OK,
+    // significa que se guardó correctamente
+
+    if (resultado.trim() === "OK") {
+
+      form.style.display = "none";
+
+      successMessage.classList.add("show");
+
+      showToast(
+        "Tu respuesta fue guardada correctamente."
+      );
+
+    } else {
+
+      console.error(
+        "Respuesta de PHP:",
+        resultado
+      );
+
+      showToast(
+        "Ocurrió un error al guardar la respuesta."
+      );
+    }
+
+
+  } catch (error) {
+
+    console.error(
+      "Error de conexión:",
+      error
+    );
+
+    showToast(
+      "No se pudo conectar con el servidor."
+    );
   }
 
-  const headers = ["Fecha", ...questions.map((_, index) => `Pregunta ${index + 1}`)];
-  const rows = responses.map(response => [
-    new Date(response.createdAt).toLocaleString("es-PY"),
-    ...questions.map(question => response.answers[question.key])
-  ]);
-
-  const escapeCsv = value => `"${String(value).replaceAll('"', '""')}"`;
-  const csv = [headers, ...rows].map(row => row.map(escapeCsv).join(",")).join("\n");
-  const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-
-  link.href = url;
-  link.download = "respuestas_sapi.csv";
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-  URL.revokeObjectURL(url);
-
-  showToast("Archivo CSV descargado.");
 });
 
-clearButton?.addEventListener("click", () => {
-  const responses = getResponses();
 
-  if (responses.length === 0) {
-    showToast("No hay datos guardados.");
-    return;
+// ================================
+// NUEVA RESPUESTA
+// ================================
+
+newResponseButton.addEventListener(
+  "click",
+  () => {
+
+    form.reset();
+
+    document
+      .querySelectorAll(".question")
+      .forEach(question => {
+
+        question.classList.remove("invalid");
+
+      });
+
+
+    updateProgress();
+
+
+    successMessage.classList.remove("show");
+
+    form.style.display = "block";
+
+
+    document
+      .getElementById("encuesta")
+      .scrollIntoView({
+        behavior: "smooth"
+      });
+
   }
+);
 
-  const confirmed = window.confirm("¿Seguro que querés borrar todas las respuestas guardadas en este dispositivo?");
-  if (!confirmed) return;
 
-  localStorage.removeItem(STORAGE_KEY);
-  renderResults();
-  showToast("Las respuestas fueron eliminadas.");
-});
+// ================================
+// MENÚ
+// ================================
 
-menuButton.addEventListener("click", () => {
-  const isOpen = nav.classList.toggle("open");
-  menuButton.setAttribute("aria-expanded", String(isOpen));
-});
+menuButton.addEventListener(
+  "click",
+  () => {
+
+    const isOpen =
+      nav.classList.toggle("open");
+
+    menuButton.setAttribute(
+      "aria-expanded",
+      String(isOpen)
+    );
+
+  }
+);
+
 
 nav.querySelectorAll("a").forEach(link => {
-  link.addEventListener("click", () => {
-    nav.classList.remove("open");
-    menuButton.setAttribute("aria-expanded", "false");
-  });
+
+  link.addEventListener(
+    "click",
+    () => {
+
+      nav.classList.remove("open");
+
+      menuButton.setAttribute(
+        "aria-expanded",
+        "false"
+      );
+
+    }
+  );
+
 });
 
+
+// ================================
+// INICIAR
+// ================================
+
 updateProgress();
-renderResults();
